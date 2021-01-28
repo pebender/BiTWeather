@@ -10,4 +10,4 @@ Since these are weather related functions, I felt Weather.jl would be a good nam
 
 ## Documentation
 
-I have written some documentation on the use BiTWeather.jl and on the inner workings of the BiTWeather.jl algorithms. The documentation can be found at: [BiTWeather.jl documentation](https://github.com/pebender/BiTWeather/documentation/index.html).
+I have written some documentation on the use BiTWeather.jl and on the inner workings of the BiTWeather.jl algorithms. The documentation can be found at: [BiTWeather.jl documentation](https://github.com/pebender/BiTWeather/docs/index.html).
