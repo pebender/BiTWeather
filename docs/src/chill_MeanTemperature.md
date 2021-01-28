@@ -8,7 +8,7 @@ The model maps the mean temperature over the coldest month of the year to the to
 
 ## Max/Min Thermometer Emulation
 
-To emulate a max/min thermometer, [`Weather.chill`](@ref) calculates the daily maximum ``x_{max}(d) = \Theta_{max}(d)`` and minimum ``x_{min}(d) = \Theta_{min}(d``) temperatures from the weather data's temperature measurements using
+To emulate a max/min thermometer, [`BiTWeather.chill`](@ref) calculates the daily maximum ``x_{max}(d) = \Theta_{max}(d)`` and minimum ``x_{min}(d) = \Theta_{min}(d``) temperatures from the weather data's temperature measurements using
 
 ```math
 
@@ -26,11 +26,11 @@ x_{min}(d) = \Theta_{min}(d)
 
 ```
 
-where ``\Theta_n(d)`` is the temperature in ``\degree C`` of measurement ``n`` on day ``d``. After that, [`Weather.chill`](@ref) applies the Mean Temperature model.
+where ``\Theta_n(d)`` is the temperature in ``\degree C`` of measurement ``n`` on day ``d``. After that, [`BiTWeather.chill`](@ref) applies the Mean Temperature model.
 
 ## Model Implementation
 
-First, [`Weather.chill`](@ref) calculates the mean maximum temperature ``x_{max} = \overline{\Theta_{max}}`` and the mean minimum temperature ``x_{min} = \overline{\Theta_{min}}`` using
+First, [`BiTWeather.chill`](@ref) calculates the mean maximum temperature ``x_{max} = \overline{\Theta_{max}}`` and the mean minimum temperature ``x_{min} = \overline{\Theta_{min}}`` using
 
 ```math
 
