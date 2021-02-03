@@ -40,10 +40,10 @@ Because of naming restrictions imposed by the Julia language and Julia coding st
 
 ### Variable Name Mappings
 
-- ``\Theta_n \Rightarrow`` theta_n
+- ``\Theta_n \Rightarrow`` theta\_n
 
 ### Equation Name Mappings
 
-- ``\Delta y(n) \Rightarrow`` delta_y_n
-- ``y(n) \Rightarrow`` y_n
-- ``y(n - 1) \Rightarrow`` y_nMinus1
+- ``\Delta y(n) \Rightarrow`` delta\_y\_n
+- ``y(n) \Rightarrow`` y\_n
+- ``y(n - 1) \Rightarrow`` y\_nMinus1

@@ -128,9 +128,9 @@ Because of naming restrictions imposed by the Julia language and Julia coding st
 
 ### Equation Name Mappings
 
-- ``x_{max}(d) \Rightarrow`` x_max_d
-- ``x_{min}(d) \Rightarrow`` x_min_d
-- ``x_{max} \Rightarrow`` x_max
-- ``x_{min} \Rightarrow`` x_min
+- ``x_{max}(d) \Rightarrow`` x\_max\_d
+- ``x_{min}(d) \Rightarrow`` x\_min\_d
+- ``x_{max} \Rightarrow`` x\_max
+- ``x_{min} \Rightarrow`` x\_min
 - ``x \Rightarrow`` x
 - ``y \Rightarrow`` y
