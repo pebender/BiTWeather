@@ -92,7 +92,7 @@ function chill(::Val{:CumulativeChillHour}, weatherData::DataFrames.DataFrame)::
 
         return delta_y_n, y_n, y_n
     end
-    
+
     cch::DataFrames.DataFrame = weatherData
 
     # Determine the hourly temperature.

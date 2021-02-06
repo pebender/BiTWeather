@@ -67,7 +67,7 @@ function chill(::Val{:CumulativeChillPortion}, weatherData::DataFrames.DataFrame
 
     Arguments:
         temperature: The temperature.
-        x_0_n::Float64: 
+        x_0_n::Float64:
         y_nMinus1::Float64: The accumulated chill portions after the previous
             interval's calculation
     Returns:
@@ -97,7 +97,7 @@ function chill(::Val{:CumulativeChillPortion}, weatherData::DataFrames.DataFrame
         p_n::Float64         = exp(4 * f * (theta_f / theta_n) * (theta_n - theta_f)) /
                                 (exp(4 * f * (theta_f / theta_n) * (theta_n - theta_f)) + 1)
         delta_y_n::Float64   = x_n < 1.0 ? 0.0 : p_n * x_n
-        y_n::Float64         = y_nMinus1 + delta_y_n 
+        y_n::Float64         = y_nMinus1 + delta_y_n
         x_0_nPlus1::Float64  = x_n - delta_y_n
 
         return x_n, delta_y_n, y_n, x_0_nPlus1, y_n

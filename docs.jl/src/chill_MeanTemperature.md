@@ -40,7 +40,7 @@ x_{max} =
 \sum_{d=d_1}^{d_2}
 x_{max}(d)
 =
-\overline{\Theta_{max}} = 
+\overline{\Theta_{max}} =
 \frac{1}{{d_2 - d_1 + 1}}
 \cdot
 \sum_{d=d_1}^{d_2}
@@ -56,7 +56,7 @@ x_{min} =
 \sum_{d=d_1}^{d_2}
 x_{min}(d)
 =
-\overline{\Theta_{min}} = 
+\overline{\Theta_{min}} =
 \frac{1}{{d_2 - d_1 + 1}}
 \cdot
 \sum_{d=d_1}^{d_2}
