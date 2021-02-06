@@ -114,7 +114,7 @@ Configuration(; dsn::String, table::String, fieldMappings::Dict{Symbol, FieldMap
 
 ```julia
     import BiTWeather
-    
+
     configuration = BiTWeather.Configuration(
         dsn = "meteobridge",
         table = "backinthirty",

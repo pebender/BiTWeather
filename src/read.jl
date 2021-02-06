@@ -107,7 +107,7 @@ function read(configuration::Configuration, range::Union{Tuple{Union{Dates.Date,
     end
 
     # Connect to the weather database.
-    
+
     connection::ODBC.Connection = ODBC.Connection(configuration.dsn)
     # Read the requested fields.
     weatherData::DataFrames.DataFrame = ODBC.DBInterface.execute(connection, query) |> DataFrames.DataFrame
