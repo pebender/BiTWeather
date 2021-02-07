@@ -6,4 +6,4 @@ For further information, check the [BiTWeather.jl documentation](https://pebende
 
 ---
 
-Last Reviewed on 20 February 2021
+Last Reviewed on 06 February 2021

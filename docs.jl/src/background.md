@@ -30,6 +30,6 @@ It seems San Diego is either in a drought or just about to enter a drought most 
 
 ---
 
-Last Reviewed on 20 February 2021
+Last Reviewed on 06 February 2021
 
 [^1]: In addition to reducing water usage, people in California should make sure their property absorbs the water from rainfall rather then directing it down the storm drains. While this can reduce their own water usage, the bigger benefit is that the rainwater ends up in the water table rather than the ocean.

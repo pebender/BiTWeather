@@ -36,4 +36,4 @@ BiTWeather.jl makes the chill models available through its [`BiTWeather.chill`](
 
 ---
 
-Last Reviewed on 20 February 2021
+Last Reviewed on 06 February 2021
