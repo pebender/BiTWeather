@@ -5,26 +5,15 @@
 CurrentModule = BiTWeather
 ```
 
-Welcome to the BiTWeather.jl. This documentation strives to provide you with everything you need to know to use BiTWeather.jl.
+Welcome to the BiTWeather.jl. This documentation strives to provide you with everything you need to know to use and understand BiTWeather.jl. So, the documentation
+
+- Explains how to use the functions (i.e. the API),
+- Explains the models implemented by the functions, and
+- Provides references for further information about the models.
 
 ## What is BiTWeather.jl
 
-BiTWeather.jl is a collection of functions to enable a backyard gardener with weather data stored in a SQL database to perform calculations helpful to planting and maintaining their garden. I have been implementing functions as we have needed them for our garden. Right now, we are in the process of selecting some addition fruit trees. So, I have implemented various models for calculating chill. Because our microclimate is different from the nearby locations for which chill data is available, I felt using our own weather data could provide some better insight.
-
-### Why the Name?
-
-Since these are weather related functions, I felt Weather.jl would be a good name for the module. However, the name Weather.jl is very generic and I did not want the name of the module to conflict with the names of other modules. So, I decided to call it BiTWeather.jl instead. BiT is an acronym for "Back in Thirty". "Back in Thirty" is the name of our house, garden and internet domain. So, I felt prefacing the Weather.jl with BiT to form BiTWeather.jl was a good way to keep the module name unique while not completely obscuring its function.
-
-## Our Equipment
-
-I thought it might be informative to take a short detour to look at the equipment we use in conjunction with our [permaculture](https://en.wikipedia.org/wiki/Permaculture) garden.
-
-- We collect weather data using an [Ambient Weather WS-1550-IP](https://ambientweather.com/amws1500.html) personal weather station.
-- We transfer weather data to a SQL database using [Meteobridge](https://meteobridge.com/wiki/index.php/Home) rebranded as the [Ambient Weather WEATHERBRIDGE](https://ambientweather.com/amweatherbridge.html) for transferring weather data to a SQL database.
-- We store weather data in a [MariaDB](https://mariadb.org) running on a [Synology DS718+](https://www.synology.com/).
-- We upload weather data to [PWSWeather](https://www.pwsweather.com/) as [BACKINTHRITY](https://www.pwsweather.com/station/pws/BACKINTHIRTY) to enable our smart irrigation controllers to access the weather data.
-- We control irrigation using [Orbit b-hyve](https://bhyve.orbitonline.com) smart irrigation controllers.
-- We monitor water usage using a [Flume Smart Home Water Monitor](https://flumewater.com/).
+BiTWeather.jl is a collection of functions that I have been writing to help with our backyard garden. It reads weather data stored in a SQL database and performs calculations we find helpful in planting and maintaining our garden. I implement the functions as we need them for our garden.
 
 ## Weather Data
 
@@ -32,7 +21,7 @@ BiTWeather.jl reads, normalizes and formats weather data from a SQL database tab
 
 ## Chill Models
 
-When deciding on fruit producing plants, the gardener wants to know whether or not the plants will set fruit where they live. For many plants, including varieties of fruit trees, varieties of cane berries and strawberries, a major contributing factor to whether or not the plant will set fruit is how much [chill](https://en.wikipedia.org/wiki/Chilling_requirement) the plant receives while dormant. People measure chill in different ways but the goal is the same: estimate whether or not there is enough chill during dormancy to set fruit.
+When deciding on fruit producing plants, we want to know whether or not the plants will set fruit where we live. For many plants, including varieties of fruit trees, varieties of cane berries and strawberries, a major contributing factor to whether or not the plant will set fruit is how much [chill](https://en.wikipedia.org/wiki/Chilling_requirement) the plant receives while dormant. People measure chill in different ways but the goal is the same: estimate whether or not there is enough chill during dormancy to set fruit.
 
 BiTWeather.jl implements the following chill estimation models:
 
@@ -44,3 +33,7 @@ BiTWeather.jl implements the following chill estimation models:
 While the [Cumulative Chill Hour](chill_CumulativeChillHour.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models have proven to be adequate chill estimators for cold climates, the have proven to be less reliable predictors for temperate climate. For temperate climates, the [Cumulative Chill Portion](chill_CumulativeChillPortion.md) [Mean Temperature](chill_MeanTemperature.md) models have proven to be more reliable chill estimators.
 
 BiTWeather.jl makes the chill models available through its [`BiTWeather.chill`](@ref) function.
+
+---
+
+Last Reviewed on 20 February 2021

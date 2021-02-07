@@ -19,15 +19,15 @@ Through the [Arrhenius equations](https://en.wikipedia.org/wiki/Arrhenius_equati
 
 ### Observable Parameters
 
-The model predicts there is an optimum temperature at which chill accumulates most quickly. This is not unexpected. Previously observation derived models have been moving in this direction. First, the developers of the [Cumulative Chill Hour](chill_TemperatureRange.md) model observed there is a temperature above which there is no significant chill accumulation. Then they observed there is a temperature below which there is no significant chill accumulation. Later, the developers of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model observed that chill accumulates less quickly when the temperature is near the edge of lower and upper temperature thresholds and more quickly when it is in the middle of the temperature range. We will call this optimum temperature $\Theta^*$ and time between transfer of PDBF to DBF at this optimum temperature $\tau^*$.
+The model predicts there is an optimum temperature at which chill accumulates most quickly. This is not unexpected. Previously observation derived models have been moving in this direction. First, the developers of the [Cumulative Chill Hour](chill_TemperatureRange.md) model observed there is a temperature above which there is no significant chill accumulation. Then they observed there is a temperature below which there is no significant chill accumulation. Later, the developers of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model observed that chill accumulates less quickly when the temperature is near the edge of lower and upper temperature thresholds and more quickly when it is in the middle of the temperature range. We will call this optimum temperature ``\Theta^*`` and time between transfer of PDBF to DBF at this optimum temperature ``\tau^*``.
 
-The model predicts there is a critical temperature above which no chill accumulates. This is not unexpected. The developers of both the [Cumulative Chill Hour](chill_TemperatureRange.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models observed this behavior. We will call this temperature $\Theta_c$
+The model predicts there is a critical temperature above which no chill accumulates. This is not unexpected. The developers of both the [Cumulative Chill Hour](chill_TemperatureRange.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models observed this behavior. We will call this temperature ``\Theta_c``
 
-The model predicts that when the temperature cycles between temperatures that are above and below the optimum temperature, chill can accumulate more quickly than at the optimum temperature. This is unexpected. People developing chill models had not observed this behavior until after it was predicted by the math. However, this lack of prior observation is not unexpected. It can be difficult to recognize short term dynamics of a system, especially what the short term dynamics are counterintuitive. We will call the higher temperature $\Theta_1$, the lower temperature $\Theta_2$, the period of the cycle $\pi_c$ and the relative time spent at the higher and lower temperatures $\eta$.
+The model predicts that when the temperature cycles between temperatures that are above and below the optimum temperature, chill can accumulate more quickly than at the optimum temperature. This is unexpected. People developing chill models had not observed this behavior until after it was predicted by the math. However, this lack of prior observation is not unexpected. It can be difficult to recognize short term dynamics of a system, especially what the short term dynamics are counterintuitive. We will call the higher temperature ``\Theta_1``, the lower temperature ``\Theta_2``, the period of the cycle ``\pi_c`` and the relative time spent at the higher and lower temperatures ``\eta``.
 
 ### Hidden Parameters
 
-Because of the creation and destruction of PDBF are each modeled an [Arrhenius equation](https://en.wikipedia.org/wiki/Arrhenius_equation), the model needs the four hidden parameters creation activation energy $E_0$, the creation rate $A_0$, the destruction activation $E_1$ and destruction rate $A_1$. We can derive these hidden parameters from the observable parameters using equations A1, A2, A3 and A4 from the ["computer simulation"](https://doi.org/10.1016/S0022-5193(87)80237-0) paper. I included these for equations in the [Appendix](#Appendix) in case anyone needs to determine the hidden parameters for their own set of observable parameters.
+Because of the creation and destruction of PDBF are each modeled an [Arrhenius equation](https://en.wikipedia.org/wiki/Arrhenius_equation), the model needs the four hidden parameters creation activation energy ``E_0``, the creation rate ``A_0``, the destruction activation ``E_1`` and destruction rate ``A_1``. We can derive these hidden parameters from the observable parameters using @eq:A1 A1, A2, A3 and A4 from the ["computer simulation"](https://doi.org/10.1016/S0022-5193(87)80237-0) paper. I included these for equations in the [Appendix](#Appendix) in case anyone needs to determine the hidden parameters for their own set of observable parameters.
 
 ### Parameter Values
 
@@ -70,12 +70,11 @@ A_1 = 2.567 \cdot 10^{18}
 
 The computer simulation uses a discrete implementation. We use a discrete implementation because there is no closed form solution for the continuous model.
 
-The discrete implementation holds the temperature constant for a time interval $n$. After updating the equations using this temperature, the implementation uses the updated values as the initial values for the next time interval $n + 1$ and repeats the process.
+The discrete implementation holds the temperature constant for a time interval ``n``. After updating the equations using this temperature, the implementation uses the updated values as the initial values for the next time interval ``n + 1`` and repeats the process.
 
 For this discrete implementation, PDBF is given by
 
 ```math
-
 x(n) = x_s(n) - (x_s(n) - x_0(n)) \cdot e^{-k_1(n)}
 
 ```
@@ -83,6 +82,7 @@ x(n) = x_s(n) - (x_s(n) - x_0(n)) \cdot e^{-k_1(n)}
 where
 
 ```math
+\tag*{1.2}
 
 x_s(n) = \frac{k_0(n)}{k_1(n)}
 
@@ -98,25 +98,51 @@ k_1(n) = A_1 \cdot e^{- \frac{E_1}{\Theta_n}}
 
 ```
 
- $x(n)$ is the PDBF after the time interval $n$ but before any transfer of PDBF to DBF. $x_0(n)$ is the PDBF at the end of the previous time interval after any transfer of PDBF to DBF. $x_s(n)$ is the steady state value of $x(n)$ were the temperature constant for all values of $n$. $k_0(n)$ and $k_1(n)$ are the rates of PDBF creation and destruction during the time interval, and $\Theta_n$ is the temperature during the time interval.
+ ``x(n)`` is the PDBF after the time interval ``n`` but before any transfer of PDBF to DBF. ``x_0(n)`` is the PDBF at the end of the previous time interval after any transfer of PDBF to DBF. ``x_s(n)`` is the steady state value of ``x(n)`` were the temperature constant for all values of ``n``. ``k_0(n)`` and ``k_1(n)`` are the rates of PDBF creation and destruction during the time interval, and ``\Theta_n`` is the temperature during the time interval.
 
-When $x(n) = 1$, there is a probability that the PDBF will transfer to DBF. This probability is given by the sigmoidal function
+When ``x(n) = 1``, there is a probability that the PDBF will transfer to DBF. This probability is given by the sigmoidal function
+
+```math
+p(n) =
+\frac
+{
+    e^{
+        4 \cdot \Theta_f^2 \cdot F
+        \cdot
+        (\frac{1}{\Theta_f} - \frac{1}{\Theta_n})
+    }
+}
+{
+    1
+    +
+    e^{
+        4 \cdot \Theta_f^2 \cdot F
+        \cdot
+        (\frac{1}{\Theta_f} - \frac{1}{\Theta_n})
+    }
+}
+=
+\frac
+{e^{4 \cdot F \cdot \Theta_f \cdot (1 - \Theta_f / \Theta_n)}}
+{1 + e^{4 \cdot F \cdot \Theta_f \cdot (1 - \Theta_f / \Theta_n)}}
+
+```
+
+where
 
 ```math
 
-p(n) = \frac{e^{4 \cdot F \cdot (\frac{\Theta_f}{\Theta_n}) \cdot (\Theta_n - \Theta_f)}}{1 + e^{4 \cdot F \cdot (\frac{\Theta_f}{\Theta_n}) \cdot (\Theta_n - \Theta_f)}}
-\space,\space
 \Theta_f = 277 \space \text{K}
 \space,\space
 F = 0.4 \space K^{-1}
 
 ```
 
-where $\Theta_f$ is the transition temperature and $F$ is the slope at the transition temperature. $\Theta_f$ and $F$ are chosen based on observation.
+where ``\Theta_f`` is the transition temperature and ``F`` is the slope at the transition temperature. ``\Theta_f`` and ``F`` are chosen based on observation.
 
-Rather than flip a coin with bias $p(n)$ each time $x(n) = 1$, we transfer $p(n)$ amount of $x(n)$ to $y(n)$ each time $x(n) = 1$. While not correct for any giving instance of $x(n) = 1$, it is approximately correct after many occurrences of the same value of $\Theta_n$ and has the advantage of making the $x(n)$ and $y(n)$ deterministic for a given sequence of $\Theta_n$.
+Rather than flip a coin with bias ``p(n)`` each time ``x(n) = 1``, we transfer ``p(n)`` amount of ``x(n)`` to ``y(n)`` each time ``x(n) = 1``. While not correct for any giving instance of ``x(n) = 1``, it is approximately correct after many occurrences of the same value of ``\Theta_n`` and has the advantage of making the ``x(n)`` and ``y(n)`` deterministic for a given sequence of ``\Theta_n``.
 
-Under these assumptions, the transfer of PDBF to DBF is given by $\Delta y(n)$, DPF is given by $y(n)$ and the initial PDBF for the next time interval is given by $x_0(n + 1)$. At the start of the simulation, $x_0(n)$ and $y(n)$ with zero.
+Under these assumptions, the transfer of PDBF to DBF is given by ``\Delta y(n)``, DPF is given by ``y(n)`` and the initial PDBF for the next time interval is given by ``x_0(n + 1)``. At the start of the simulation, ``x_0(n)`` and ``y(n)`` with zero.
 
 ```math
 
@@ -171,28 +197,44 @@ Because of naming restrictions imposed by the Julia language and Julia coding st
 For reference, I have included the equations A1, A2, A3 and A4 from the ["computer simulation"](https://doi.org/10.1016/S0022-5193(87)80237-0) paper.
 
 ```math
+\tag*{A1}
 
 E_1
 =
 \frac
-    {E_0 - E_1}
-    {(e^{(E_1 - E_0) \cdot q} - 1) \cdot
-    ln(1 - e^{(E_0 - E_1) \cdot q})}
-\\~\\
+{E_0 - E_1}
+{
+    (e^{(E_1 - E_0) \cdot q} - 1)
+    \cdot
+    ln(1 - e^{(E_0 - E_1) \cdot q})
+}
+
+```
+
+```math
+\tag*{A2}
 
 k_1(\Theta^*) =
 - \frac
-    {
-        ln(1 - e^{(E_0 - E_1) \cdot q})
-    }
-    {
-        \tau(\Theta^*)
-    }
-\\~\\
+{
+    ln(1 - e^{(E_0 - E_1) \cdot q})
+}
+{
+    \tau(\Theta^*)
+}
+
+```
+
+```math
+\tag*{A3}
 
 A_0
 = A_1 \cdot e^{(E_0 - E_1) / \Theta_c}
-\\~\\
+
+```
+
+```math
+\tag*{A4}
 
 \frac
 {
@@ -233,758 +275,6 @@ q = \frac{1}{\Theta^*} - \frac{1}{\Theta_c}
 
 ```
 
-### Equations
+---
 
-Notice that only the third equation depends on ``A_0``. Therefore, we have three not four interdependent non-linear equations we need to solve. These equations are
-
-```math
-
-F_1(A_1, E_1, E_x)
-=
-(f(E_x, \Theta_{*|c}) - 1)
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-+
-\frac{E_x}{E_1}
-=
-0
-\\~\\
-
-F_2(A_1, E_1, E_x)
-=
-\frac{1}{A_1
-\cdot
-\tau^*}
-f(E_1, \Theta^*)
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-+
-1
-=
-0
-\\~\\
-
-F_3(A_1, E_1, E_x)
-=
-\frac
-{f(E_x, \Theta_2) - f(E_x, \Theta_c)}
-{f(E_x, \Theta_c) - f(E_x, \Theta_1)}
--
-\frac{1 - g_1 \cdot g_2}{1 - g_2}
-=
-0
-
-```
-
-where
-
-```math
-
-f(E, \Theta) = e^{E / \Theta}
-\quad,\quad
-f(-E, \Theta) = f(E, - \Theta) = \frac{1}{f(E, \Theta)}
-\\~\\
-g(\alpha, A, f(-E, \Theta))
-=
-e^{- \alpha \cdot A \cdot f(-E, \Theta)}
-=
-e^{- \alpha \cdot A \cdot e^{-E / \Theta}}
-\\~\\
-
-A_0 = A_1 \cdot f(E_x, \Theta_c)
-\quad,\quad
-E_x = E_1 - E_0
-\quad,\quad
-\frac{1}{\Theta_{*|c}} = \frac{1}{\Theta^*} - \frac{1}{\Theta_c}
-\\~\\
-
-f_1 = f(- E_1, \Theta_1)
-\quad,\quad
-f_2 = f(- E_1, \Theta_2)
-\\~\\
-
-g_1 = g(\pi_c \cdot \eta, A_1, f_1)
-\quad,\quad
-g_2 = g(\pi_c \cdot (1 - \eta), A_1, f_2)
-
-```
-
-### Partial Derivatives
-
-Unfortunately, the equations do not have a closed form solution. However, if we have the partial derivatives, then we can form the Jacobian matrix and solve the equations numerically. You can skip past the details of the partial derivative calculation and go right to [solving](#solving).
-
-#### Partial Derivatives Common to All Functions
-
-```math
-
-\frac{\partial f(E, \Theta)}{\partial E} = \frac{1}{\Theta} \cdot f(E, \Theta)
-
-\\~\\
-
-\frac{\partial f_1}{\partial E_1} = - \frac{1}{\Theta_1} \cdot f_1
-\quad,\quad
-\frac{\partial f_2}{\partial E_1} = - \frac{1}{\Theta_2} \cdot f_2
-
-\\~\\
-
-\frac{\partial g_1}{\partial A_1} =
-- \pi_c \cdot \eta
-\cdot
-g_1 \cdot f_1
-\quad,\quad
-\frac{\partial g_2}{\partial A_1} =
-- \pi_c \cdot (\eta - 1) 
-\cdot
-g_2 \cdot f_2
-
-\\~\\
-
-\frac{\partial g_1}{\partial E_1} =
-\frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-\cdot
-g_1 \cdot f_1
-\quad,\quad
-\frac{\partial g_2}{\partial E_1} =
-\frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_1}
-\cdot
-g_2 \cdot f_2
-
-\\~\\
-
-\frac{\partial (1 - g_2)^{-1}}{\partial A_1}
-=
-- \pi_c \cdot (\eta - 1)
-\cdot
-\frac{g_2 \cdot f_2}{(1 - g_2)^2}
-
-\\~\\
-
-\frac{\partial (1 - g_2)^{-1}}{\partial E_1}
-=
-\frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_1}
-\cdot
-\frac{1}{(1 - g_2)^2}
-
-\\~\\
-
-\frac{\partial ln(1 - f(-E_x, \Theta_{*|c})}{\partial E_x} =
-\frac{1}{\Theta_{*|c}}
-\cdot
-\frac{f(- E_x, \Theta_{*|c})}{1 - f(- E_x, \Theta_{*|c})}
-=
-\frac{1}{\Theta_{*|c}}
-\cdot
-\frac{1}{f(E_x, \Theta_{*|c}) - 1}
-
-\\~\\
-
-\frac{\partial (f(E_x, \Theta_{*|c}) - 1)^{-1}}{\partial E_x} =
-- \frac{1}{\Theta_{*|c}}
-\cdot
-\frac{f(E_x, \Theta_{*|c})}{(f(E_x, \Theta_{*|c}) - 1)^2}
-
-```
-
-#### Partial Derivatives of ``F_1``
-
-```math
-
-\frac{\partial F_1}{\partial A_1}
-=
-0
-\\~\\~\\
-
-\frac{\partial F_1}{\partial E_1}
-=
-- \frac{E_x}{E_1^2}
-\\~\\~\\
-
-\frac{\partial F_1}{\partial E_x}
-= \\~\\
-\frac{1}{\Theta_{*|c}}
-\cdot
-f(E_x, \Theta_{*|c})
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-+ \\~\\
-(f(E_1, \Theta_{*|c}) - 1)
-\cdot
-\frac{1}{\Theta_{*|c}}
-\cdot
-\frac{1}{1 - f(- E_x, \Theta_{c|*})}
-+
-\frac{1}{E_1}
-
-= \\~\\
-
-\frac{1}{\Theta_{*|c}}
-\cdot
-f(E_x, \Theta_{*|c})
-\cdot
-(
-    -\frac{E_x}{E_1}
-    \cdot
-    \frac{1}{f(E_x, \Theta_{*|c}) - 1}
-)
-+
-\frac{f(E_x, \Theta_{*|c})}{\Theta_{*|c}}
-+
-\frac{1}{E_1}
-= \\~\\
-\frac{f(E_x, \Theta_{*|c})}{\Theta_{*|c}}
-\cdot
-(
-    1
-    -
-    \frac{E_x}{E_1}
-    \cdot
-    \frac{1}{f(E_x, \Theta_{*|c}) - 1}
-)
-+
-\frac{1}{E_1}
-
-```
-
-#### Partial Derivatives of ``F_2``
-
-```math
-
-\frac{\partial F_2}{\partial A_1}
-=
-- \frac{1}{A_1}
-
-\\~\\~\\
-
-\frac{\partial F_2}{\partial E_1}
-= 
-\frac{1}{\Theta^*}
-\cdot
-\frac{1}{A_1 \cdot \tau^*}
-\cdot
-f(E_1, \Theta^*)
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-=
-- \frac{1}{\Theta^*}
-\\~\\~\\
-
-\frac{\partial F_2}{\partial E_x}
-=
-\frac{1}{A_1 \cdot \tau^*}
-\cdot
-f(E_1, \Theta^* \cdot )
-\cdot
-\frac{1}{\Theta_{*|c}}
-\cdot
-\frac{1}{f(E_x, \Theta_{*|c}) - 1}
-= \\~\\
-\frac{1}{A_1 \cdot \tau^* \cdot \Theta_{*|c}}
-\cdot
-\frac{f(E_1, \Theta^*)}{f(E_x, \Theta_{*|c}) - 1}
-
-```
-
-#### Partial Derivatives of ``F_3``
-
-```math
-
-\\~\\
-
-\frac{\partial F_3}{\partial A_1}
-= \\~\\
-
-\frac{1}{1 - g_2}
-\cdot
-(
-    - g_2
-    \cdot
-    (
-        - \pi_c \cdot \eta
-        \cdot
-        g_1 \cdot f_1
-    )
-)
-\\~\\
-+
-\frac{1}{1 - g_2}
-\cdot
-(
-    - g_1
-    \cdot
-    (
-        - \pi_c \cdot (\eta - 1)
-        \cdot
-        g_2 \cdot f_2
-    )
-)
-\\~\\
-+
-(1 - g_1 \cdot g_2)
-\cdot
-(
-    - \pi_c \cdot (\eta - 1)
-    \cdot
-    \frac{g_2 \cdot f_2}{(1 - g_2)^2}
-)
-= \\~\\
-
-\pi_c \cdot \eta
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2}
-\\~\\
-\pi_c \cdot (\eta - 1)
-\cdot
-\frac{g_1 \cdot g_2 \cdot f_2}{1 - g_2}
-\\~\\
-- \pi_c \cdot (\eta - 1)
-\cdot
--\frac{(1 - g_1 \cdot g_2) \cdot g_2 \cdot f_2}{(1 - g_2)^2}
-= \\~\\
-
-\pi_c \cdot \eta
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2} +
-\\~\\
-\frac{\pi_c \cdot (\eta - 1)}{\Theta_1}
-\cdot
-\frac
-{(g_2 \cdot f_2 - g_1 \cdot g_2 \cdot g_2 \cdot f_2)
--
-(g_1 \cdot g_2 \cdot f_2 - g_2 \cdot g_1 \cdot g_2 \cdot f_2)}
-{(1 - g_2)^2}
-= \\~\\
-
-\pi_c \cdot \eta
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2} +
-\pi_c \cdot (\eta - 1)
-\cdot
-\frac
-{(1 - g_1) \cdot g_2 \cdot f_2}
-{(1 - g_2)^2}
-\\~\\~\\
-
-\frac{\partial F_3}{\partial E_1}
-= \\~\\
-\frac{1}{1 - g_2}
-\cdot
-(
-    - g_2
-    \cdot
-    (
-        \frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-        \cdot
-        g_1 \cdot f_1
-    )
-)
-\\~\\
-+
-\frac{1}{1 - g_2}
-\cdot
-(
-    - g_1
-    \cdot
-    (
-        \frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_2}
-        \cdot
-        g_2 \cdot f_2
-    )
-)
-\\~\\
-+
-(1 - g_1 \cdot g_2)
-\cdot
-(
-    \frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_2}
-    \cdot
-    \frac{g_2 \cdot f_2}{(1 - g_2)^2}
-)
-= \\~\\
-
-- \frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2}
-\cdot
-\\~\\
-- \frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_2}
-\cdot
-\frac{g_1 \cdot g_2 \cdot f_2}{1 - g_2}
-\\~\\
-+ \frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_2}
-\cdot
-\frac{(1 - g_1 \cdot g_2) \cdot g_2 \cdot f_2}{(1 - g_2)^2}
-= \\~\\
-
-- \frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2}
-\\~\\
-- \frac{\pi_c \cdot (\eta - 1) \cdot A_1}{\Theta_2}
-\cdot
-\frac
-{(g_2 \cdot f_2 - g_1 \cdot g_2 \cdot g_2 \cdot f_2)
--
-(g_1 \cdot g_2 \cdot f_2 - g_2 \cdot g_1 \cdot g_2 \cdot f_2)}
-{(1 - g_2)^2}
-= \\~\\
-
-- \frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2} -
-\frac{\pi_c \cdot (1 - \eta) \cdot A_1}{\Theta_2}
-\cdot
-\frac
-{(1 - g_1) \cdot g_2 \cdot f_2}
-{(1 - g_2)^2}
-\\~\\~\\
-
-\frac{\partial F_3}{\partial E_x}
-= \\~\\
-
-\frac{1}{f(E_x, \Theta_1) - f(E_x, \Theta_c)}
-\cdot
-(
-    \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1)
-    -
-    \frac{1}{\Theta_2} \cdot f(E_x, \Theta_2)
-)
-+ \\~\\
-(f(E_x, \Theta_1) - f(E_x, \Theta_2))
-\cdot
-\frac{-1}{(f(E_x, \Theta_1) - f(E_x, \Theta_c))^2}
-\cdot
-(
-    \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1) 
-    -
-    \frac{1}{\Theta_c} \cdot f(E_x, \Theta_c) 
-)
-= \\~\\
-
-\frac
-{
-    \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1)
-    -
-    \frac{1}{\Theta_2} \cdot f(E_x, \Theta_2)
-}
-{
-    f(E_x, \Theta_1) - f(E_x, \Theta_c)
-}
-- \\~\\
-\frac{
-    (
-        f(E_x, \Theta_2)
-        -
-        f(E_x, \Theta_1)
-    )
-    \cdot
-    (
-        \frac{1}{\Theta_c} \cdot f(E_x, \Theta_c)
-        -
-        \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1)
-    )
-}
-{
-    (f(E_x, \Theta_c) - f(E_x, \Theta_1))^2
-}
-= \\~\\
-
-\frac
-{
-    (
-        \frac{1}{\Theta_2} \cdot f(E_x, \Theta_2)
-        -
-        \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1)
-    )
-    \cdot
-    (
-        f(E_x, \Theta_c)
-        -
-        f(E_x, \Theta_1)
-    )
-}
-{
-    (f(E_x, \Theta_c) - f(E_x, \Theta_1))^2
-}
-- \\~\\
-\frac{
-    (
-        f(E_x, \Theta_2)
-        -
-        f(E_x, \Theta_1)
-    )
-    \cdot
-    (
-        \frac{1}{\Theta_c} \cdot f(E_x, \Theta_c)
-        -
-        \frac{1}{\Theta_1} \cdot f(E_x, \Theta_1)
-    )
-}
-{
-    (f(E_x, \Theta_c) - f(E_x, \Theta_1))^2
-}
-= \\~\\
-
-\frac
-{
-    \frac{f(E_x, \Theta_2) \cdot f(E_x, \Theta_c)}{\Theta_2}
-    -
-    \frac{f(E_x, \Theta_2) \cdot f(E_x, \Theta_1)}{\Theta_2}
-    -
-    \frac{f(E_x, \Theta_1) \cdot f(E_x, \Theta_c)}{\Theta_1}
-    +
-    \frac{f(E_x, \Theta_1) \cdot f(E_x, \Theta_1)}{\Theta_1}
-}
-{
-    (f(E_x, \Theta_c) - f(E_x, \Theta_1))^2
-}
-- \\~\\
-\frac{
-    \frac{f(E_x, \Theta_2) \cdot f(E_x, \Theta_c)}{\Theta_c}
-    -
-    \frac{f(E_x, \Theta_2) \cdot f(E_x, \Theta_1)}{\Theta_1}
-    -
-    \frac{f(E_x, \Theta_1) \cdot f(E_x, \Theta_c)}{\Theta_c}
-    +
-    \frac{f(E_x, \Theta_1) \cdot f(E_x, \Theta_1)}{\Theta_1}
-
-}
-{
-    (f(E_x, \Theta_c) - f(E_x, \Theta_1))^2
-}
-
-= \\~\\
-
-\frac
-{
-    f(E_x, \Theta_2) \cdot f(E_x, \Theta_c)
-    \cdot
-    (\frac{1}{\Theta_2} - \frac{1}{\Theta_c})
-    +
-    f(E_x, \Theta_c) \cdot f(E_x, \Theta_1)
-    \cdot
-    (\frac{1}{\Theta_c} - \frac{1}{\Theta_1})
-}
-{(f(E_x, \Theta_c) - f(E_x, \Theta_1))^2}
-- \\~\\
-\frac
-{
-    f(E_x, \Theta_2) \cdot f(E_x, \Theta_1)
-    \cdot
-    (\frac{1}{\Theta_2} - \frac{1}{\Theta_1})
-
-}
-{(f(E_x, \Theta_c) - f(E_x, \Theta_1))^2}
-
-```
-
-### Solving
-
-There are many software packages that will calculate the values of an input vector ``\hat{x}`` that solve the vector of functions ``\hat{F}(\hat{x})`` as long as we have the Jacobian matrix ``\hat{J}(\hat{F}, \hat{x})``. I have chosen to use [NLSolve.jl](https://github.com/JuliaNLSolvers/NLsolve.jl).
-
-We have
-
-```math
-
-\hat{x} =
-\begin{bmatrix}
-A_1
-\\~\\
-E_1
-\\~\\
-E_x
-\end{bmatrix}
-\quad,\quad
-
-\hat{F}(\hat{x}) =
-\begin{bmatrix}
-F_1
-\\~\\
-F_2
-\\~\\
-F_3
-\end{bmatrix}
-\quad,\quad
-
-\hat{J}(\hat{F}, \hat{x}) =
-\begin{bmatrix}
-\frac{\partial F_1}{\partial A_1}
-&&
-\frac{\partial F_1}{\partial E_1}
-&&
-\frac{\partial F_1}{\partial E_x}
-\\~\\
-\frac{\partial F_2}{\partial A_1}
-&&
-\frac{\partial F_2}{\partial E_1}
-&&
-\frac{\partial F_2}{\partial E_x}
-\\~\\
-\frac{\partial F_3}{\partial A_1}
-&&
-\frac{\partial F_3}{\partial E_1}
-&&
-\frac{\partial F_3}{\partial E_x}
-\end{bmatrix}
-
-```
-
-where the functions are
-
-```math
-
-F_1(A_1, E_1, E_x)
-=
-(f(E_x, \Theta_{*|c}) - 1)
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-+
-\frac{E_x}{E_1}
-=
-0
-\\~\\
-
-F_2(A_1, E_1, E_x)
-=
-\frac{1}{A_1 \cdot \tau^*}
-f(E_1, \Theta^*)
-\cdot
-ln(1 - f(- E_x, \Theta_{*|c}))
-+
-1
-=
-0
-\\~\\
-
-F_3(A_1, E_1, E_x)
-=
-\frac
-{f(E_x, \Theta_1) - f(E_x, \Theta_2)}
-{f(E_x, \Theta_1) - f(E_x, \Theta_c)}
--
-\frac{1 - g_1 \cdot g_2}{1 - g_2}
-=
-0
-
-```
-
-and the partial derivatives are
-
-```math
-
-\frac{\partial F_1}{\partial A_1} = 0
-\\~\\
-
-\frac{\partial F_1}{\partial E_1} = - \frac{E_x}{E_1^2}
-\\~\\
-
-\frac{\partial F_1}{\partial E_x}
-=
-\frac{f(E_x, \Theta_{*|c})}{\Theta_{*|c}}
-\cdot
-(
-    1
-    -
-    \frac{E_x}{E_1}
-    \cdot
-    \frac{1}{f(E_x, \Theta_{*|c}) - 1}
-)
-+
-\frac{1}{E_1}
-
-\\~\\
-
-\frac{\partial F_2}{\partial A_1}
-=
-- \frac{1}{A_1}
-\\~\\
-
-\frac{\partial F_2}{\partial E_1}
-=
-- \frac{1}{\Theta^*}
-\\~\\
-
-\frac{\partial F_2}{\partial E_x}
-=
-\frac{1}{A_1 \cdot \tau^* \cdot \Theta_{*|c}}
-\cdot
-\frac{f(E_1, \Theta^*)}{f(E_x, \Theta_{*|c}) - 1}
-
-\\~\\
-
-\frac{\partial F_3}{\partial A_1}
-=
-\pi_c \cdot \eta
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2} +
-\pi_c \cdot (\eta - 1)
-\cdot
-\frac
-{(1 - g_1) \cdot g_2 \cdot f_2}
-{(1 - g_2)^2}
-\\~\\~\\
-
-\frac{\partial F_3}{\partial E_1}
-=
-- \frac{\pi_c \cdot \eta \cdot A_1}{\Theta_1}
-\cdot
-\frac{g_2 \cdot g_1 \cdot f_1}{1 - g_2} -
-\frac{\pi_c \cdot (1 - \eta) \cdot A_1}{\Theta_2}
-\cdot
-\frac
-{(1 - g_1) \cdot g_2 \cdot f_2}
-{(1 - g_2)^2}
-\\~\\
-
-\frac{\partial F_3}{\partial E_x}
-= \\~\\
-\frac
-{
-    f(E_x, \Theta_2) \cdot f(E_x, \Theta_c)
-    \cdot
-    (\frac{1}{\Theta_2} - \frac{1}{\Theta_c})
-    +
-    f(E_x, \Theta_c) \cdot f(E_x, \Theta_1)
-    \cdot
-    (\frac{1}{\Theta_c} - \frac{1}{\Theta_1})
-}
-{(f(E_x, \Theta_c) - f(E_x, \Theta_1))^2}
-- \\~\\
-\frac
-{
-    f(E_x, \Theta_2) \cdot f(E_x, \Theta_1)
-    \cdot
-    (\frac{1}{\Theta_2} - \frac{1}{\Theta_1})
-
-}
-{(f(E_x, \Theta_c) - f(E_x, \Theta_1))^2}
-
-```
-
-and where
-
-```math
-
-\frac{1}{\Theta_{*|c}} = \frac{1}{\Theta^*} - \frac{1}{\Theta_c}
-\\~\\
-
-f(E, \Theta) = e^{E / \Theta}
-\\~\\
-g(\alpha, A, f(-E, \Theta))
-=
-e^{- \alpha \cdot A \cdot f(-E, \Theta)}
-=
-e^{- \alpha \cdot A \cdot e^{-E / \Theta}}
-\\~\\
-
-f_1 = f(- E_1, \Theta_1)
-\quad,\quad
-f_2 = f(- E_1, \Theta_2)
-\\~\\
-
-g_1 = g(\pi_c \cdot \eta, A_1, f_1)
-\quad,\quad
-g_2 = g(\pi_c \cdot (1 - \eta), A_1, f_2)
-
-```
-
-In order to numerically solve for ``A_1``, ``E_1`` and ``E_x``, we need initial values for each of them. I would use the values in this memo as the initial values, until you find they do not work for your combination of values.
+Last Reviewed on 20 February 2021

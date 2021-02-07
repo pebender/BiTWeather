@@ -8,3 +8,7 @@ CurrentModule = BiTWeather
 Configuration
 FieldMapping
 ```
+
+---
+
+Last Reviewed on 20 February 2021
