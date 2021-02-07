@@ -94,8 +94,8 @@ function chill(::Val{:CumulativeChillPortion}, weatherData::DataFrames.DataFrame
         k_1_n::Float64       = a_1 * exp(-e_1 / theta_n)
         x_s_n::Float64       = k_0_n / k_1_n
         x_n::Float64         = x_s_n - (x_s_n - x_0_n) * exp(-k_1_n)
-        p_n::Float64         = exp(4 * f * (theta_f / theta_n) * (theta_n - theta_f)) /
-                                (exp(4 * f * (theta_f / theta_n) * (theta_n - theta_f)) + 1)
+        p_n::Float64         = exp(4 * f * theta_f * (1 - (theta_f / theta_n))) /
+                               (1 + exp(4 * f * theta_f * (1 - (theta_f / theta_n))))
         delta_y_n::Float64   = x_n < 1.0 ? 0.0 : p_n * x_n
         y_n::Float64         = y_nMinus1 + delta_y_n
         x_0_nPlus1::Float64  = x_n - delta_y_n
