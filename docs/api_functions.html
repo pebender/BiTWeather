@@ -18,7 +18,7 @@
         )
     )
 
-    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, nothing, nothing)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/47d68696563df98aeda731fa1252edff7d95a19d/src/read.jl#L9-L69">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="BiTWeather.chill" href="#BiTWeather.chill"><code>BiTWeather.chill</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillHour}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillHour.html">Cumulative Chill Hour</a> model.</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the accumulated chill hours. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the :temperature`   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill hours indexed by   year/month/day/hour. The returned columns are: year, month, day, hour,   temperature, <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, nothing, nothing)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/read.jl#L9-L69">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="BiTWeather.chill" href="#BiTWeather.chill"><code>BiTWeather.chill</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillHour}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillHour.html">Cumulative Chill Hour</a> model.</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the accumulated chill hours. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the :temperature`   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill hours indexed by   year/month/day/hour. The returned columns are: year, month, day, hour,   temperature, <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
     import Dates
     import BiTWeather
 
@@ -41,8 +41,9 @@
     rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:CumulativeChillHour), weatherData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/47d68696563df98aeda731fa1252edff7d95a19d/src/chill_CumulativeChillHour.jl#L4-L53">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillUnit}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillUnit.html">Cumulative Chill Unit</a> model (also known as the Utah model).</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the cumulative chill units. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the <code>:temperature</code>   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill units indexed by   year/month/day/hour. The returned columns are: year, month, temperature,   <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillHour), weatherData)
+    println(chillData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillHour.jl#L4-L54">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillUnit}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillUnit.html">Cumulative Chill Unit</a> model (also known as the Utah model).</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the cumulative chill units. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the <code>:temperature</code>   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill units indexed by   year/month/day/hour. The returned columns are: year, month, temperature,   <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
     import Dates
     import BiTWeather
 
@@ -65,8 +66,9 @@
     rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/47d68696563df98aeda731fa1252edff7d95a19d/src/chill_CumulativeChillUnit.jl#L4-L54">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillPortion}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillPortion.html">Cumulative Chill Portion</a> model (also known as the Dynamic model).</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the accumulated chill portions. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the<code>:temperature</code>   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill portions indexed by   year/month/day/hour. The returned columns are:  year, month, day, hour,   temperature, <span>$x(n)$</span>, <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)
+    println(chillData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillUnit.jl#L4-L55">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:CumulativeChillPortion}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_CumulativeChillPortion.html">Cumulative Chill Portion</a> model (also known as the Dynamic model).</p><p><strong>Arguments</strong></p><ul><li><code>weatherData::DataFrames.DataFrame</code>: The weather data used for calculating   the accumulated chill portions. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the<code>:temperature</code>   field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill portions indexed by   year/month/day/hour. The returned columns are:  year, month, day, hour,   temperature, <span>$x(n)$</span>, <span>$\Delta y(n)$</span>, and <span>$y(n)$</span>.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
     import Dates
     import BiTWeather
 
@@ -85,12 +87,13 @@
     )
 
     year::Int = 2021
-    rangeStart::Dates.Date = Dates.Date(year - 1, 1, 1)
+    rangeStart::Dates.Date = Dates.Date(year - 1, 9, 1)
     rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/47d68696563df98aeda731fa1252edff7d95a19d/src/chill_CumulativeChillPortion.jl#L4-L54">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:MeanTemperature}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_MeanTemperature.html">Mean Temperature</a> model.</p><p><strong>Arguments</strong></p><ul><li><code>weatherData</code>: A <code>DataFrames.DataFrame</code> containing the weather data used for   estimating the chill units. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the <code>:temperature</code> field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill units indexed by   year/month/day/hour. The returned columns are: x and y.</li></ul><p>For temperate climates, you want to use data from the coldest month of the year for the calculation. Whereas, for cold climates, you want to use data from the coldest two months of the year.</p><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)
+    println(chillData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillPortion.jl#L5-L56">source</a></section><section><div><pre><code class="language-julia">    chill(::Val{:MeanTemperature}, weatherData::DataFrame)::DataFrame</code></pre><p>Implements the <a href="chill_MeanTemperature.html">Mean Temperature</a> model.</p><p><strong>Arguments</strong></p><ul><li><code>weatherData</code>: A <code>DataFrames.DataFrame</code> containing the weather data used for   estimating the chill units. <code>weatherData</code> must be formatted to match the   output of <a href="api_functions.html#BiTWeather.read"><code>BiTWeather.read</code></a> and contain at least the <code>:temperature</code> field.</li></ul><p><strong>Return</strong></p><ul><li>A <code>DataFrames.DataFrame</code> containing the chill units indexed by   year/month/day/hour. The returned columns are: x and y.</li></ul><p>For temperate climates, you want to use data from the coldest month of the year for the calculation. Whereas, for cold climates, you want to use data from the coldest two months of the year.</p><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
     import Dates
     import BiTWeather
 
@@ -113,5 +116,114 @@
     rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:MeanTemperature), weatherData)
+    println(chillData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_MeanTemperature.jl#L4-L56">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="BiTWeather.chillPlot" href="#BiTWeather.chillPlot"><code>BiTWeather.chillPlot</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">    chillPlot(::Val{:CumulativeChillPortion}, chillData::DataFrame)::PlotlyJS.Plot</code></pre><p>Generates a plot of the <a href="chill_CumulativeChillPortion.html">Cumulative Chill Portion</a> data.</p><p><strong>Arguments</strong></p><ul><li><code>chillData::DataFrames.DataFrame</code>: The chill data used in generating the plot.   <code>chillData</code> must be formated to match the output of   <a href="api_functions.html#BiTWeather.chill"><code>BiTWeather.chill</code></a> called with <code>Val(:CumulativeChillPortion)</code>.</li></ul><p><strong>Return</strong></p><ul><li>A <code>PlotlyJS.Plot</code> containing a plot of the temperature and chill portion data.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = &quot;meteobridge&quot;,
+        table = &quot;backinthirty&quot;,
+        fieldMappings = Dict(
+            :dateTime =&gt; BiTWeather.FieldMapping(
+                name = &quot;DateTime&quot;
+            ),
+            :temperature =&gt; BiTWeather.FieldMapping(
+                name = &quot;TempOutNow&quot;,
+                units = &quot;F&quot;
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year - 1, 9, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
     weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:MeanTemperature), weatherData)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/47d68696563df98aeda731fa1252edff7d95a19d/src/chill_MeanTemperature.jl#L4-L55">source</a></section></article><hr/><p>Last Reviewed on 06 February 2021</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="api_types.html">« Types</a><a class="docs-footer-nextpage" href="background.html">Background »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Saturday 6 February 2021 20:04">Saturday 6 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    chillData = BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:CumulativeChillPortion), chillData)
+    PlotlyJS.display(plot)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillPortion.jl#L143-L193">source</a></section><section><div><pre><code class="language-julia">    chillPlot(::Val{:CumulativeChillHour}, chillData::DataFrame)::PlotlyJS.Plot</code></pre><p>Generates a plot of the <a href="chill_CumulativeChillHour.html">Cumulative Chill Hour</a> model data.</p><p><strong>Arguments</strong></p><ul><li><code>chillData::DataFrames.DataFrame</code>: The chill data used in generating the plot.   <code>chillData</code> must be formated to match the output of   <a href="api_functions.html#BiTWeather.chill"><code>BiTWeather.chill</code></a> called with <code>Val(:CumulativeChillHour)</code>.</li></ul><p><strong>Return</strong></p><ul><li>A <code>PlotlyJS.Plot</code> containing a plot of the temperature and chill portion data.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = &quot;meteobridge&quot;,
+        table = &quot;backinthirty&quot;,
+        fieldMappings = Dict(
+            :dateTime =&gt; BiTWeather.FieldMapping(
+                name = &quot;DateTime&quot;
+            ),
+            :temperature =&gt; BiTWeather.FieldMapping(
+                name = &quot;TempOutNow&quot;,
+                units = &quot;F&quot;
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year - 1, 11, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
+    weatherData = BiTWeather.read(configuration, range, fields)
+    chillData = BiTWeather.chill(Val(:CumulativeChillHour), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:CumulativeChillHour), chillData)
+    PlotlyJS.display(plot)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillHour.jl#L129-L179">source</a></section><section><div><pre><code class="language-julia">    chillPlot(::Val{:CumulativeChillUnit}, chillData::DataFrame)::PlotlyJS.Plot</code></pre><p>Generates a plot of the <a href="chill_CumulativeChillUnit.html">Cumulative Chill Unit</a> model data.</p><p><strong>Arguments</strong></p><ul><li><code>chillData::DataFrames.DataFrame</code>: The chill data used in generating the plot.   <code>chillData</code> must be formated to match the output of   <a href="api_functions.html#BiTWeather.chill"><code>BiTWeather.chill</code></a> called with <code>Val(:CumulativeChillUnit)</code>.</li></ul><p><strong>Return</strong></p><ul><li>A <code>PlotlyJS.Plot</code> containing a plot of the temperature and chill portion data.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = &quot;meteobridge&quot;,
+        table = &quot;backinthirty&quot;,
+        fieldMappings = Dict(
+            :dateTime =&gt; BiTWeather.FieldMapping(
+                name = &quot;DateTime&quot;
+            ),
+            :temperature =&gt; BiTWeather.FieldMapping(
+                name = &quot;TempOutNow&quot;,
+                units = &quot;F&quot;
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year - 1, 11, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
+    weatherData = BiTWeather.read(configuration, range, fields)
+    chillData = BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:CumulativeChillUnit), chillData)
+    PlotlyJS.display(plot)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_CumulativeChillUnit.jl#L138-L188">source</a></section><section><div><pre><code class="language-julia">    chillPlot(::Val{:MeanTemperature}, chillData::DataFrame)::PlotlyJS.Plot</code></pre><p>Generates a plot of the <a href="chill_CumulativeChillUnit.html">Cumulative Chill Unit</a> model data.</p><p><strong>Arguments</strong></p><ul><li><code>chillData::DataFrames.DataFrame</code>: The chill data used in generating the plot.   <code>chillData</code> must be formated to match the output of   <a href="api_functions.html#BiTWeather.chill"><code>BiTWeather.chill</code></a> called with <code>Val(:MeanTemperature)</code>.</li></ul><p><strong>Return</strong></p><ul><li>A <code>PlotlyJS.Plot</code> containing a plot of the temperature and chill portion data.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia">    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = &quot;meteobridge&quot;,
+        table = &quot;backinthirty&quot;,
+        fieldMappings = Dict(
+            :dateTime =&gt; BiTWeather.FieldMapping(
+                name = &quot;DateTime&quot;
+            ),
+            :temperature =&gt; BiTWeather.FieldMapping(
+                name = &quot;TempOutNow&quot;,
+                units = &quot;F&quot;
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year, 1, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
+    weatherData = BiTWeather.read(configuration, range, fields)
+    chillData = BiTWeather.chill(Val(:MeanTemperature), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:MeanTemperature), chillData)
+    PlotlyJS.display(plot)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/pebender/BiTWeather/blob/ed208eb43183628c540ca2ae4735222467214d8a/src/chill_MeanTemperature.jl#L98-L148">source</a></section></article><hr/><p>Last Reviewed on 07 February 2021</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="api_types.html">« Types</a><a class="docs-footer-nextpage" href="background.html">Background »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 7 February 2021 19:29">Sunday 7 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

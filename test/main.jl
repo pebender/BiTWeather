@@ -5,9 +5,11 @@ using Revise
 import CSV
 import DataFrames
 import Dates
+import PlotlyJS
+
 import BiTWeather
 
-function main()
+function main(mode::Symbol, model::Symbol)
 
     cfg = BiTWeather.Configuration(
         dsn = "meteobridge",
@@ -43,53 +45,38 @@ function main()
         )
     )
 
-    year::Int = 2021
+    if mode == :chill
 
-#    choice::Symbol = :CumulativeChillHour
-#    choice::Symbol = :CumulativeChillUnit
-#    choice::Symbol = :CumulativeChillPortion
-    choice::Symbol = :MeanTemperature
+        year::Int = 2021
 
-    if (choice == :CumulativeChillHour)
-        startDate::Dates.Date = Dates.Date(year - 1, 9,  1)
-        endDate::Dates.Date   = Dates.Date(year,     3,  1)
-        range::Tuple{Dates.Date, Dates.Date} = (startDate, endDate)
+        parameters::Dict{Symbol, Dict{Symbol, Any}} = Dict(
+            :CumulativeChillHour => Dict(
+                :range => (Dates.Date(year - 1, 9, 1), Dates.Date(year, 3,  1))
+            ),
+            :CumulativeChillUnit => Dict(
+                :range => (Dates.Date(year - 1, 9, 1), Dates.Date(year, 3,  1))
+            ),
+            :CumulativeChillPortion => Dict(
+                :range => (Dates.Date(year - 1, 9, 1), Dates.Date(year, 3,  1))
+            ),
+            :MeanTemperature => Dict(
+                :range => (Dates.Date(year, 1, 1), Dates.Date(year, 1,  31))
+            )
+        )
+
+        range::Tuple{Dates.Date, Dates.Date} = parameters[model][:range]
         fields::Vector{Symbol} = [:temperature]
-        @time weather::DataFrames.DataFrame = BiTWeather.read(cfg, range, fields)
-        @time results::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillHour), weather)
-#        @time CSV.write("chill.csv", results)
-println(results)
-    elseif (choice == :CumulativeChillUnit)
-        startDate = Dates.Date(year - 1, 9, 1)
-        endDate   = Dates.Date(year,     3, 1)
-        range  = (startDate, endDate)
-        fields = [:temperature]
-        @time weather = BiTWeather.read(cfg, range, fields)
-        @time results = BiTWeather.chill(Val(:CumulativeChillUnit), weather)
-#        @time CSV.write("chill.csv", results)
-        println(results)
-    elseif (choice == :CumulativeChillPortion)
-        startDate = Dates.Date(year - 1, 9, 1)
-        endDate   = Dates.Date(year,     3, 1)
-        range  = (startDate, endDate)
-        fields = [:temperature]
-        @time weather = BiTWeather.read(cfg, range, fields)
-        @time results = BiTWeather.chill(Val(:CumulativeChillPortion), weather)
-#        @time CSV.write("chill.csv", results)
-        println(results)
-    elseif (choice == :MeanTemperature)
-        startDate = Dates.Date(year, 1,  1)
-        endDate   = Dates.Date(year, 1, 31)
-        range  = (startDate, endDate)
-        fields = [:temperature]
-        @time weather = BiTWeather.read(cfg, range, fields)
-        @time results = BiTWeather.chill(Val(:MeanTemperature), weather)
-#        @time CSV.write("chill.csv", results)
-        println(results)
-    else
+        @time weatherData::DataFrames.DataFrame = BiTWeather.read(cfg, range, fields)
+        @time chillData::DataFrames.DataFrame = BiTWeather.chill(Val(model), weatherData)
+        @time CSV.write("chill.csv", chillData)
+        @time plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(model), chillData)
+        PlotlyJS.display(plot)
     end
 
-    return
+     return
 end
 
-main()
+main(:chill, :CumulativeChillHour)
+main(:chill, :CumulativeChillUnit)
+main(:chill, :CumulativeChillPortion)
+main(:chill, :MeanTemperature)

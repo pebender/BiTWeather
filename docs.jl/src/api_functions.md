@@ -7,8 +7,9 @@ CurrentModule = BiTWeather
 ```@docs
 read
 chill
+chillPlot
 ```
 
 ---
 
-Last Reviewed on 06 February 2021
+Last Reviewed on 07 February 2021

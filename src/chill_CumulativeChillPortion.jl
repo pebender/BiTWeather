@@ -1,4 +1,5 @@
 import DataFrames
+import PlotlyJS
 import Statistics
 
 """
@@ -44,12 +45,13 @@ Implements the [Cumulative Chill Portion](chill_CumulativeChillPortion.md) model
     )
 
     year::Int = 2021
-    rangeStart::Dates.Date = Dates.Date(year - 1, 1, 1)
+    rangeStart::Dates.Date = Dates.Date(year - 1, 9, 1)
     rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)
+    println(chillData)
 ```
 """
 function chill(::Val{:CumulativeChillPortion}, weatherData::DataFrames.DataFrame)::DataFrames.DataFrame
@@ -136,4 +138,59 @@ function chill(::Val{:CumulativeChillPortion}, weatherData::DataFrames.DataFrame
     end
 
     return ccp
+end
+
+"""
+```julia
+    chillPlot(::Val{:CumulativeChillPortion}, chillData::DataFrame)::PlotlyJS.Plot
+```
+
+Generates a plot of the [Cumulative Chill Portion](chill_CumulativeChillPortion.md)
+data.
+
+# Arguments
+
+- `chillData::DataFrames.DataFrame`: The chill data used in generating the plot.
+    `chillData` must be formated to match the output of
+    [`BiTWeather.chill`](@ref) called with `Val(:CumulativeChillPortion)`.
+
+# Return
+
+- A `PlotlyJS.Plot` containing a plot of the temperature and chill portion data.
+
+# Example
+
+```julia
+    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = "meteobridge",
+        table = "backinthirty",
+        fieldMappings = Dict(
+            :dateTime => BiTWeather.FieldMapping(
+                name = "DateTime"
+            ),
+            :temperature => BiTWeather.FieldMapping(
+                name = "TempOutNow",
+                units = "F"
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year - 1, 9, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
+    weatherData = BiTWeather.read(configuration, range, fields)
+    chillData = BiTWeather.chill(Val(:CumulativeChillPortion), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:CumulativeChillPortion), chillData)
+    PlotlyJS.display(plot)
+```
+"""
+function chillPlot(::Val{:CumulativeChillPortion}, chillData::DataFrames.DataFrame)::PlotlyJS.Plot
+    return _chillPlot(chillData, :temperature, :y_n, "Cumulative Chill Portion (Dynamic)", "Portions")
 end

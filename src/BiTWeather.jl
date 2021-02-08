@@ -186,6 +186,8 @@ export Configuration
 
 include("read.jl")
 
+include("chillPlot.jl")
+
 export read
 
 include("chill_CumulativeChillHour.jl")
@@ -194,5 +196,6 @@ include("chill_CumulativeChillPortion.jl")
 include("chill_MeanTemperature.jl")
 
 export chill
+export chillPlot
 
 end

@@ -32,8 +32,8 @@ BiTWeather.jl implements the following chill estimation models:
 
 While the [Cumulative Chill Hour](chill_CumulativeChillHour.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models have proven to be adequate chill estimators for cold climates, the have proven to be less reliable predictors for temperate climate. For temperate climates, the [Cumulative Chill Portion](chill_CumulativeChillPortion.md) [Mean Temperature](chill_MeanTemperature.md) models have proven to be more reliable chill estimators.
 
-BiTWeather.jl makes the chill models available through its [`BiTWeather.chill`](@ref) function.
+BiTWeather.jl makes the chill models available through its [`BiTWeather.chill`](@ref) function. In addition, the results can be plotted using its [`BiTWeather.chillPlot`](@ref) function.
 
 ---
 
-Last Reviewed on 06 February 2021
+Last Reviewed on 07 February 2021

@@ -48,8 +48,9 @@ Implements the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model
     rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
     range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
     fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    println(BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)
+    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)
+    println(chillData)
 ```
 """
 function chill(::Val{:CumulativeChillUnit}, weatherData::DataFrames.DataFrame)::DataFrames.DataFrame
@@ -132,4 +133,59 @@ function chill(::Val{:CumulativeChillUnit}, weatherData::DataFrames.DataFrame)::
     end
 
     return ccu
+end
+
+"""
+```julia
+    chillPlot(::Val{:CumulativeChillUnit}, chillData::DataFrame)::PlotlyJS.Plot
+```
+
+Generates a plot of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model
+data.
+
+# Arguments
+
+- `chillData::DataFrames.DataFrame`: The chill data used in generating the plot.
+    `chillData` must be formated to match the output of
+    [`BiTWeather.chill`](@ref) called with `Val(:CumulativeChillUnit)`.
+
+# Return
+
+- A `PlotlyJS.Plot` containing a plot of the temperature and chill portion data.
+
+# Example
+
+```julia
+    import DataFrames
+    import Dates
+    import PlotlyJS
+    import BiTWeather
+
+    configuration = BiTWeather.Configuration(
+        dsn = "meteobridge",
+        table = "backinthirty",
+        fieldMappings = Dict(
+            :dateTime => BiTWeather.FieldMapping(
+                name = "DateTime"
+            ),
+            :temperature => BiTWeather.FieldMapping(
+                name = "TempOutNow",
+                units = "F"
+            )
+        )
+    )
+
+    year::Int = 2021
+    rangeStart::Dates.Date = Dates.Date(year - 1, 11, 1)
+    rangeEnd::Dates.Date = Dates.Date(year, 2, 28)
+    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+    fields::Vector{Symbol} = [:temperature]
+    weatherData = BiTWeather.read(configuration, range, fields)
+    chillData = BiTWeather.chill(Val(:CumulativeChillUnit), weatherData)
+    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:CumulativeChillUnit), chillData)
+    PlotlyJS.display(plot)
+```
+"""
+function chillPlot(::Val{:CumulativeChillUnit}, chillData::DataFrames.DataFrame)::PlotlyJS.Plot
+    return _chillPlot(chillData, :temperature, :y_n, "Cumulative Chill Unit", "Units")
 end
