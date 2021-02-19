@@ -2,10 +2,6 @@ import DataFrames
 import Dates
 import ODBC
 
-# import ODBC
-# It appears ODBC is using something beh
-#import ODBC
-
 """
 ```julia
 read(configuration::Configuration,
