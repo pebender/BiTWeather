@@ -44,12 +44,19 @@ Configuration(; dsn::String, table::String, fieldMappings::Dict{Symbol, FieldMap
 - `table`: The SQL database table containing the weather data.
 - `fieldMappings`: A dictionary of [`BiTWeather.FieldMapping`](@ref) entries, each
     of which provides a mapping from a field understood by the BiTWeather.jl module
-    methods to a field in the SQL database table. The BiTWeather.jl module fields are
-    `:dateTime`, `:temperature`, `:windSpeed`, `:windDirection`, `:pressure`,
-    `:relativeHumidity`, and `solarRadiation`. The mapping for `:dateTime` is
-    required.
+    methods to a field in the SQL database table. The BiTWeather.jl module fields and
+    allowed units are
 
-# Examples
+    - `:dateTime`
+    - `:pressure`: *`"kPa"`*, `"bar"`, `"inHg"`, `"kgm/s2"`, `"mbar"`, `"mmHg"`, `"N/m2"`, `"Pa"`, `"Pascals"`
+    - `:relativeHumidity`: *`"percent"`*
+    - `:solarRadiation`: *`"W/m2"`*
+    - `:temperature`: *`"C"`*, *`"Celsius"`*, `"F"`, `"Fahrenheit"`, `"K"`, `"Kelvin"`
+    - `:windDirection`: *`"degrees"`*
+    - `:windSpeed`:  *`"m/s"`*, `"Knots"`, `"k/hr"`, `"mph"`
+
+The mapping for `:dateTime` is required. The SI units to which all other units
+are converted appear at the beginning of the list in italic.
 
 See [`configuration_example`](@ref) for an example `Configuration`.
 """
