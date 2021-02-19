@@ -2,8 +2,7 @@ __precompile__()
 
 module BiTWeather
 
-include("stuct_UnitMappings.jl")
-export FieldMapping
+include("unitMappings.jl")
 
 include("struct_Configuration.jl")
 export Configuration
