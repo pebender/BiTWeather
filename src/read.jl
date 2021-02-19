@@ -8,9 +8,9 @@ import ODBC
 
 """
 ```julia
-    read(configuration::Configuration,
-         range::Union{Tuple{Union{Date, Nothing}, Union{Date, Nothing}}, Nothing},
-         fields::Union{Vector{Symbol}, Nothing})::DataFrame
+read(configuration::Configuration,
+        range::Union{Tuple{Union{Date, Nothing}, Union{Date, Nothing}}, Nothing},
+        fields::Union{Vector{Symbol}, Nothing})::DataFrame
 ```
 
 # Arguments
@@ -47,24 +47,19 @@ values. It drops any records with missing field values.
 # Example
 
 ```julia
-    import DataFrames
-    import BiTWeather
+import DataFrames
+import BiTWeather
 
-    configuration = BiTWeather.Configuration(
-        dsn = "meteobridge",
-        table = "backinthirty",
-        fieldMappings = Dict(
-            :dateTime => BiTWeather.FieldMapping(
-                name = "DateTime"
-            ),
-            :temperature => BiTWeather.FieldMapping(
-                name = "TempOutNow",
-                units = "F"
-            )
-        )
+configuration = BiTWeather.Configuration(
+    dsn = "meteobridge",
+    table = "backinthirty",
+    fieldMappings = Dict(
+        :dateTime =>    BiTWeather.FieldMapping(name = "DateTime",   units = nothing),
+        :temperature => BiTWeather.FieldMapping(name = "TempOutNow", units = "F")
     )
+)
 
-    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, nothing, nothing)
+weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, nothing, nothing)
 ```
 """
 function read(configuration::Configuration, range::Union{Tuple{Union{Dates.Date, Nothing}, Union{Dates.Date, Nothing}}, Nothing}, fields::Union{Vector{Symbol}, Nothing})::DataFrames.DataFrame

@@ -3,7 +3,7 @@ import Statistics
 
 """
 ```julia
-    chill(::Val{:MeanTemperature}, weatherData::DataFrame)::DataFrame
+chill(::Val{:MeanTemperature}, weatherData::DataFrame)::DataFrame
 ```
 
 Implements the [Mean Temperature](chill_MeanTemperature.md) model.
@@ -26,32 +26,27 @@ coldest two months of the year.
 # Example
 
 ```julia
-    import DataFrames
-    import Dates
-    import BiTWeather
+import DataFrames
+import Dates
+import BiTWeather
 
-    configuration = BiTWeather.Configuration(
-        dsn = "meteobridge",
-        table = "backinthirty",
-        fieldMappings = Dict(
-            :dateTime => BiTWeather.FieldMapping(
-                name = "DateTime"
-            ),
-            :temperature => BiTWeather.FieldMapping(
-                name = "TempOutNow",
-                units = "F"
-            )
-        )
+configuration = BiTWeather.Configuration(
+    dsn = "meteobridge",
+    table = "backinthirty",
+    fieldMappings = Dict(
+        :dateTime =>    BiTWeather.FieldMapping(name = "DateTime",   units = nothing),
+        :temperature => BiTWeather.FieldMapping(name = "TempOutNow", units = "F")
     )
+)
 
-    year::Int = 2021
-    rangeStart::Dates.Date = Dates.Date(year, 1, 1)
-    rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
-    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
-    fields::Vector{Symbol} = [:temperature]
-    weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
-    chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:MeanTemperature), weatherData)
-    println(chillData)
+year::Int = 2021
+rangeStart::Dates.Date = Dates.Date(year, 1, 1)
+rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
+range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+fields::Vector{Symbol} = [:temperature]
+weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:MeanTemperature), weatherData)
+println(chillData)
 ```
 """
 function chill(::Val{:MeanTemperature}, weatherData::DataFrames.DataFrame)::DataFrames.DataFrame
@@ -97,7 +92,7 @@ end
 
 """
 ```julia
-    chillPlot(::Val{:MeanTemperature}, chillData::DataFrame)::PlotlyJS.Plot
+chillPlot(::Val{:MeanTemperature}, chillData::DataFrame)::PlotlyJS.Plot
 ```
 
 Generates a plot of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model
@@ -116,34 +111,29 @@ data.
 # Example
 
 ```julia
-    import DataFrames
-    import Dates
-    import PlotlyJS
-    import BiTWeather
+import DataFrames
+import Dates
+import PlotlyJS
+import BiTWeather
 
-    configuration = BiTWeather.Configuration(
-        dsn = "meteobridge",
-        table = "backinthirty",
-        fieldMappings = Dict(
-            :dateTime => BiTWeather.FieldMapping(
-                name = "DateTime"
-            ),
-            :temperature => BiTWeather.FieldMapping(
-                name = "TempOutNow",
-                units = "F"
-            )
-        )
+configuration = BiTWeather.Configuration(
+    dsn = "meteobridge",
+    table = "backinthirty",
+    fieldMappings = Dict(
+        :dateTime =>    BiTWeather.FieldMapping(name = "DateTime",   units = nothing),
+        :temperature => BiTWeather.FieldMapping(name = "TempOutNow", units = "F")
     )
+)
 
-    year::Int = 2021
-    rangeStart::Dates.Date = Dates.Date(year, 1, 1)
-    rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
-    range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
-    fields::Vector{Symbol} = [:temperature]
-    weatherData = BiTWeather.read(configuration, range, fields)
-    chillData = BiTWeather.chill(Val(:MeanTemperature), weatherData)
-    plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:MeanTemperature), chillData)
-    PlotlyJS.display(plot)
+year::Int = 2021
+rangeStart::Dates.Date = Dates.Date(year, 1, 1)
+rangeEnd::Dates.Date = Dates.Date(year, 1, 31)
+range::Tuple{Float64, Float64} = (rangeStart, rangeEnd)
+fields::Vector{Symbol} = [:temperature]
+weatherData::DataFrames.DataFrame = BiTWeather.read(configuration, range, fields)
+chillData::DataFrames.DataFrame = BiTWeather.chill(Val(:MeanTemperature), weatherData)
+plot::PlotlyJS.Plot = BiTWeather.chillPlot(Val(:MeanTemperature), chillData)
+PlotlyJS.display(plot)
 ```
 """
 function chillPlot(::Val{:MeanTemperature}, chillData::DataFrames.DataFrame)::PlotlyJS.Plot

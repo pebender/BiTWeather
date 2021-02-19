@@ -11,17 +11,15 @@ include("constants.jl")
 export configuration_example
 
 include("read.jl")
-
-include("chillPlot.jl")
-
 export read
 
 include("chill_CumulativeChillHour.jl")
 include("chill_CumulativeChillUnit.jl")
 include("chill_CumulativeChillPortion.jl")
 include("chill_MeanTemperature.jl")
-
 export chill
+
+include("chillPlot.jl")
 export chillPlot
 
 end
