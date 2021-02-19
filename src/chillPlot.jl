@@ -8,25 +8,11 @@ function _chillPlot(data::DataFrames.DataFrame, temperatureField::Symbol, chillF
     function xaxisItem(year::Int = 1, month::Int = 1, day::Int = 1, hour::Int = 0, minute::Int = 0, second::Int = 0)::Dates.DateTime
         return Dates.DateTime(year, month, day, hour, minute, second)
     end
-
-    xaxis::Vector{Dates.DateTime} = []
-
-    names::Vector{String} = DataFrames.names(data)
-    if     ! ("year" in names)
-        xaxis = [Dates.DateTime(1,1,1,0,0,0)]
-    elseif ! ("month" in names)
-        xaxis = xaxisItem.(data.year)
-    elseif ! ("day" in names)
-        xaxis = xaxisItem.(data.year, data.month)
-    elseif ! ("hour" in names)
-        xaxis = xaxisItem.(data.year, data.month, data.day)
-    elseif ! ("minute" in names)
-        xaxis = xaxisItem.(data.year, data.month, data.day, data.hour)
-    elseif ! ("second" in names)
-        xaxis = xaxisItem.(data.year, data.month, data.day, data.hour, data.minute)
-    else
-        xaxis = xaxisItem.(data.year, data.month, data.day, data.hour, data.minute, data.second)
-    end
+    dataFields::Vector{Symbol} = DataFrames.propertynames(data)
+    dateFields::Vector{Symbol} = [:year, :month, :day, :hour, :minute, :second]
+    usedFields::Vector{Symbol} = intersect(dateFields, dataFields)
+    
+    xaxis::Vector{Dates.DateTime} = xaxisItem.([data[!, field] for field in usedFields]...)
 
     xMin::Dates.DateTime = Dates.DateTime(
         Dates.year(xaxis[1]),
