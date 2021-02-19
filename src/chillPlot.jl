@@ -64,7 +64,7 @@ function _chillPlot(data::DataFrames.DataFrame, temperatureField::Symbol, chillF
         xaxis_title = "Date",
         xaxis_range = [xMin, xMax],
 
-        yaxis_title = "Temperature (in F)",
+        yaxis_title = "Temperature (in °C)",
         yaxis_color = "lightgreen",
         yaxis_range = [tMin, tMax],
         yaxis_dtick = tTick,
