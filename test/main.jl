@@ -9,41 +9,9 @@ import PlotlyJS
 
 import BiTWeather
 
-function main(mode::Symbol, model::Symbol)
+function main(mode::Symbol, model::Union{Symbol, Nothing} = nothing)
 
-    cfg = BiTWeather.Configuration(
-        dsn = "meteobridge",
-        table = "backinthirty",
-        fieldMappings = Dict(
-            :dateTime => BiTWeather.FieldMapping(
-                name = "DateTime"
-            ),
-            :temperature => BiTWeather.FieldMapping(
-                name = "TempOutNow",
-                units = "F"
-            ),
-            :windSpeed => BiTWeather.FieldMapping(
-                name = "WindSpeedNow",
-                units = "mph"
-            ),
-            :windDirection => BiTWeather.FieldMapping(
-                name = "WindDirNow",
-                units = "degrees"
-            ),
-            :pressure => BiTWeather.FieldMapping(
-                name = "PressNow",
-                units = "inHg"
-            ),
-            :relativeHumidity => BiTWeather.FieldMapping(
-                name = "HumOutNow",
-                units = "percent"
-            ),
-            :solarRadiation => BiTWeather.FieldMapping(
-                name = "SolRadNow",
-                units = "W/m2"
-            )
-        )
-    )
+    cfg::BiTWeather.Configuration = BiTWeather.configuration_example
 
     if mode == :chill
 
@@ -64,7 +32,7 @@ function main(mode::Symbol, model::Symbol)
             )
         )
 
-        range::Tuple{Dates.Date, Dates.Date} = parameters[model][:range]
+        range::Tuple{Union{Dates.Date, Nothing}, Union{Dates.Date, Nothing}} = parameters[model][:range]
         fields::Vector{Symbol} = [:temperature]
         @time weatherData::DataFrames.DataFrame = BiTWeather.read(cfg, range, fields)
         @time chillData::DataFrames.DataFrame = BiTWeather.chill(Val(model), weatherData)
@@ -73,10 +41,10 @@ function main(mode::Symbol, model::Symbol)
         PlotlyJS.display(plot)
     end
 
-     return
+    return
 end
 
-main(:chill, :CumulativeChillHour)
-main(:chill, :CumulativeChillUnit)
+#main(:chill, :CumulativeChillHour)
+#main(:chill, :CumulativeChillUnit)
 main(:chill, :CumulativeChillPortion)
-main(:chill, :MeanTemperature)
+#main(:chill, :MeanTemperature)
