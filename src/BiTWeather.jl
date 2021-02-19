@@ -25,15 +25,15 @@ const unitMappings = UnitMappings(
         "degrees" => (value::Float64) -> value
     ),
     :pressure => UnitMapping(
-        "Pa"      => (value::Float64) -> value,
-        "Pascals" => (value::Float64) -> value,
-        "kPa"     => (value::Float64) -> value / 1000.0,
-        "N/m2"    => (value::Float64) -> value,
+        "Pa"      => (value::Float64) -> value * 0.001,
+        "Pascals" => (value::Float64) -> value * 0.001,
+        "kPa"     => (value::Float64) -> value,
+        "N/m2"    => (value::Float64) -> value * 0.001,
         "kgm/s2"  => (value::Float64) -> value,
-        "bar"     => (value::Float64) -> value / 100000.0,
-        "mbar"    => (value::Float64) -> value / 100.0,
-        "inHg"    => (value::Float64) -> value * 3386.39,
-        "mmHg"    => (value::Float64) -> value * 133.32239
+        "bar"     => (value::Float64) -> value * 100.0,
+        "mbar"    => (value::Float64) -> value * 0.1,
+        "inHg"    => (value::Float64) -> value * 3.38639,
+        "mmHg"    => (value::Float64) -> value * 0.133322
     ),
     :relativeHumidity => UnitMapping(
         "percent" => (value::Float64) -> value
