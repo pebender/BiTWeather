@@ -4,33 +4,13 @@ configuration_example = Configuration(
     dsn = "meteobridge",
     table = "backinthirty",
     fieldMappings = Dict(
-        :dateTime => FieldMapping(
-            name = "DateTime"
-        ),
-        :temperature => FieldMapping(
-            name = "TempOutNow",
-            units = "F"
-        ),
-        :windSpeed => FieldMapping(
-            name = "WindSpeedNow",
-            units = "mph"
-        ),
-        :windDirection => FieldMapping(
-            name = "WindDirNow",
-            units = "degrees"
-        ),
-        :pressure => FieldMapping(
-            name = "PressNow",
-            units = "inHg"
-        ),
-        :relativeHumidity => FieldMapping(
-            name = "HumOutNow",
-            units = "percent"
-        ),
-        :solarRadiation => FieldMapping(
-            name = "SolRadNow",
-            units = "W/m2"
-        )
+        :dateTime =>         FieldMapping(name = "DateTime",     units = nothing),
+        :pressure =>         FieldMapping(name = "PressNow",     units = "inHg"),
+        :relativeHumidity => FieldMapping(name = "HumOutNow",    units = "percent"),
+        :solarRadiation =>   FieldMapping(name = "SolRadNow",    units = "W/m2"),
+        :temperature =>      FieldMapping(name = "TempOutNow",   units = "F"),
+        :windDirection =>    FieldMapping(name = "WindDirNow",   units = "degrees"),
+        :windSpeed =>        FieldMapping(name = "WindSpeedNow", units = "mph")
     )
 )
 ```
@@ -51,36 +31,16 @@ ODBC.adddsn("meteobridge", "MariaDB",
             UID="<username>", PWD="<password>")
 ```
 """
-const configuration_example = Configuration(
+configuration_example = Configuration(
     dsn = "meteobridge",
     table = "backinthirty",
     fieldMappings = Dict(
-        :dateTime => FieldMapping(
-            name = "DateTime"
-        ),
-        :temperature => FieldMapping(
-            name = "TempOutNow",
-            units = "F"
-        ),
-        :windSpeed => FieldMapping(
-            name = "WindSpeedNow",
-            units = "mph"
-        ),
-        :windDirection => FieldMapping(
-            name = "WindDirNow",
-            units = "degrees"
-        ),
-        :pressure => FieldMapping(
-            name = "PressNow",
-            units = "inHg"
-        ),
-        :relativeHumidity => FieldMapping(
-            name = "HumOutNow",
-            units = "percent"
-        ),
-        :solarRadiation => FieldMapping(
-            name = "SolRadNow",
-            units = "W/m2"
-        )
+        :dateTime =>         FieldMapping(name = "DateTime",     units = nothing),
+        :pressure =>         FieldMapping(name = "PressNow",     units = "inHg"),
+        :relativeHumidity => FieldMapping(name = "HumOutNow",    units = "percent"),
+        :solarRadiation =>   FieldMapping(name = "SolRadNow",    units = "W/m2"),
+        :temperature =>      FieldMapping(name = "TempOutNow",   units = "F"),
+        :windDirection =>    FieldMapping(name = "WindDirNow",   units = "degrees"),
+        :windSpeed =>        FieldMapping(name = "WindSpeedNow", units = "mph")
     )
 )
