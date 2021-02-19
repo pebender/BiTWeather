@@ -19,9 +19,9 @@ Through the [Arrhenius equations](https://en.wikipedia.org/wiki/Arrhenius_equati
 
 ### Observable Parameters
 
-The model predicts there is an optimum temperature at which chill accumulates most quickly. This is not unexpected. Previously observation derived models have been moving in this direction. First, the developers of the [Cumulative Chill Hour](chill_TemperatureRange.md) model observed there is a temperature above which there is no significant chill accumulation. Then they observed there is a temperature below which there is no significant chill accumulation. Later, the developers of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model observed that chill accumulates less quickly when the temperature is near the edge of lower and upper temperature thresholds and more quickly when it is in the middle of the temperature range. We will call this optimum temperature ``\Theta^*`` and time between transfer of PDBF to DBF at this optimum temperature ``\tau^*``.
+The model predicts there is an optimum temperature at which chill accumulates most quickly. This is not unexpected. Previously observation derived models have been moving in this direction. First, the developers of the [Cumulative Chill Hour](chill_CumulativeChillHour.md) model observed there is a temperature above which there is no significant chill accumulation. Then they observed there is a temperature below which there is no significant chill accumulation. Later, the developers of the [Cumulative Chill Unit](chill_CumulativeChillUnit.md) model observed that chill accumulates less quickly when the temperature is near the edge of lower and upper temperature thresholds and more quickly when it is in the middle of the temperature range. We will call this optimum temperature ``\Theta^*`` and time between transfer of PDBF to DBF at this optimum temperature ``\tau^*``.
 
-The model predicts there is a critical temperature above which no chill accumulates. This is not unexpected. The developers of both the [Cumulative Chill Hour](chill_TemperatureRange.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models observed this behavior. We will call this temperature ``\Theta_c``
+The model predicts there is a critical temperature above which no chill accumulates. This is not unexpected. The developers of both the [Cumulative Chill Hour](chill_CumulativeChillHour.md) and [Cumulative Chill Unit](chill_CumulativeChillUnit.md) models observed this behavior. We will call this temperature ``\Theta_c``
 
 The model predicts that when the temperature cycles between temperatures that are above and below the optimum temperature, chill can accumulate more quickly than at the optimum temperature. This is unexpected. People developing chill models had not observed this behavior until after it was predicted by the math. However, this lack of prior observation is not unexpected. It can be difficult to recognize short term dynamics of a system, especially what the short term dynamics are counterintuitive. We will call the higher temperature ``\Theta_1``, the lower temperature ``\Theta_2``, the period of the cycle ``\pi_c`` and the relative time spent at the higher and lower temperatures ``\eta``.
 
@@ -277,4 +277,4 @@ q = \frac{1}{\Theta^*} - \frac{1}{\Theta_c}
 
 ---
 
-Last Reviewed on 06 February 2021
+Last Reviewed on 19 February 2021
