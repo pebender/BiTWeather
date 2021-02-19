@@ -51,61 +51,7 @@ Configuration(; dsn::String, table::String, fieldMappings::Dict{Symbol, FieldMap
 
 # Examples
 
-## Example: Configuring ODBC on MacOS for Connecting to MariaDB
-
-- Download and install the [MariaDB ODBC connector](https://downloads.mariadb.org/connector-odbc/).
-- Configure the [ODBC](http://juliadatabases.github.io/ODBC.jl/stable/) module with a DSN on MacOS by running the following in REPL
-
-```julia
-    import Pkg
-    Pkg.add("ODBC")
-    import ODBC
-
-    ODBC.adddriver("MariaDB", "/Library/MariaDB/MariaDB-Connector-ODBC/libmaodbc.dylib")
-    ODBC.adddsn("meteobridge", "MariaDB",
-                SERVER="mariadb.backinthirty.net", DATABASE="meteobridge",
-                UID="<username>", PWD="<password>")
-```
-
-## Example: Using BiTWeather.Configuration
-
-```julia
-    import BiTWeather
-
-    configuration = BiTWeather.Configuration(
-        dsn = "meteobridge",
-        table = "backinthirty",
-        fieldMappings = Dict(
-            :dateTime => BiTWeather.FieldMapping(
-                name = "DateTime"
-            ),
-            :temperature => BiTWeather.FieldMapping(
-                name = "TempOutNow",
-                units = "F"
-            ),
-            :windSpeed => BiTWeather.FieldMapping(
-                name = "WindSpeedNow",
-                units = "mph"
-            ),
-            :windDirection => BiTWeather.FieldMapping(
-                name = "WindDirNow",
-                units = "degrees"
-            ),
-            :pressure => BiTWeather.FieldMapping(
-                name = "PressNow",
-                units = "inHg"
-            ),
-            :relativeHumidity => BiTWeather.FieldMapping(
-                name = "HumOutNow",
-                units = "percent"
-            ),
-            :solarRadiation => BiTWeather.FieldMapping(
-                name = "SolRadNow",
-                units = "W/m2"
-            )
-        )
-    )
-```
+See [`configuration_example`](@ref) for an example `Configuration`.
 """
 struct Configuration
     dsn::String

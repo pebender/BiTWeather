@@ -23,7 +23,8 @@ Documenter.makedocs(
         ],
         "API" => [
             "api_types.md",
-            "api_functions.md"
+            "api_functions.md",
+            "api_constants.md"
         ],
         "Background" => "background.md"
     ]

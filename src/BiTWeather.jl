@@ -8,6 +8,9 @@ export FieldMapping
 include("struct_Configuration.jl")
 export Configuration
 
+include("constants.jl")
+export configuration_example
+
 include("read.jl")
 
 include("chillPlot.jl")
