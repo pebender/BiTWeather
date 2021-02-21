@@ -20,26 +20,32 @@ function _chillPlot(data::DataFrames.DataFrame, temperatureField::Symbol, chillF
         Dates.day(xaxis[1])
     )
 
+    # Start plot on a Sunday.
+    while Dates.dayofweek(xMin) != Dates.Sunday
+        xMin -= Dates.Day(1)
+    end
+
     xMax::Dates.DateTime = Dates.DateTime(
         Dates.year(xaxis[length(xaxis)]),
         Dates.month(xaxis[length(xaxis)]),
         Dates.day(xaxis[length(xaxis)])
-    )
+    ) + Dates.Day(1)
 
-    tMin::Float64 = floor(min(data[!, temperatureField]...) / 5.0) * 5.0
-    tMax::Float64 = ceil(max(data[!, temperatureField]...) / 5.0) * 5.0
+    # Major tick every 5.0 degrees.
+    tDTick::Float64 = 2.0
 
-    ticks::Int = convert(Int, (tMax - tMin) / 5.0)
+    tMin::Float64 = floor(min(data[!, temperatureField]...) / tDTick) * tDTick
+    tMax::Float64 = ceil(max(data[!, temperatureField]...) / tDTick) * tDTick
 
-    tTick::Int = ceil(Int, (tMax - tMin) / ticks)
-    tMax = tMin + ticks * tTick
+    ticks::Int = ceil(Int, (tMax - tMin) / tDTick)
 
+    tMax = tMin + ticks * tDTick
 
     cMin::Float64 = 0.0
     cMax::Float64 = max(data[!, chillField]...)
 
-    cTick::Int = ceil(Int, (cMax - cMin) / ticks)
-    cMax = cMin + ticks * cTick
+    cDTick::Int = ceil(Int, (cMax - cMin) / ticks)
+    cMax = cMin + ticks * cDTick
 
     trace1 = PlotlyJS.scatter(;
         name = "Temperature",
@@ -63,16 +69,17 @@ function _chillPlot(data::DataFrames.DataFrame, temperatureField::Symbol, chillF
         title = model,
         xaxis_title = "Date",
         xaxis_range = [xMin, xMax],
+        xaxis_dtick = 7 * 24 * 60 * 60 * 1000,
 
         yaxis_title = "Temperature (in °C)",
         yaxis_color = "lightgreen",
         yaxis_range = [tMin, tMax],
-        yaxis_dtick = tTick,
+        yaxis_dtick = tDTick,
 
         yaxis2_title = "Chill (in $(units))",
         yaxis2_color = "blue",
         yaxis2_range = [cMin, cMax],
-        yaxis2_dtick = cTick,
+        yaxis2_dtick = cDTick,
         yaxis2_side = "right",
         yaxis2_overlaying = "y",
 
