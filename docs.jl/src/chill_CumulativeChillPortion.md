@@ -4,12 +4,12 @@
 
 The Cumulative Chill Portion model (also known as the Dynamic model) is a two step model that follows the equations below. The mathematical analysis and computer simulations can be found in the two papers
 
-- ["The temperature dependence of dormancy breaking in plants: Mathematical analysis of a two-step model involving a cooperative transition"](https://doi.org/10.1016/S0022-5193(87)80221-7) (refered to as the "mathematical analysis" paper)
-- ["The temperature dependence of dormancy breaking in plants: Computer simulation of processes studied under controlled temperatures"](https://doi.org/10.1016/S0022-5193(87)80237-0) (refered to as the "computer simulation" paper)
+- ["The temperature dependence of dormancy breaking in plants: Mathematical analysis of a two-step model involving a cooperative transition"](https://doi.org/10.1016/S0022-5193(87)80221-7) (referred to as the "mathematical analysis" paper)
+- ["The temperature dependence of dormancy breaking in plants: Computer simulation of processes studied under controlled temperatures"](https://doi.org/10.1016/S0022-5193(87)80237-0) (referred to as the "computer simulation" paper)
 
 I have provided a summary of the papers so people do not need to track down and read the papers in order to understand the model. Hopefully, my summary is sufficient to accomplish that goal.
 
-As mentioned, the model presented and analyzed in ["mathematical analysis"](https://doi.org/10.1016/S0022-5193(87)80221-7) paper is a two step model. It assumes there is a Dormancy Breaking Factor that is created and destroyed. It assumes the creation and destruction processes of this DBF each obey the [Arrhenius equation](https://en.wikipedia.org/wiki/Arrhenius_equation). Further, it assumes that after enough Dormancy Breaking Factor from the creation and destruction processes has accumulated, the accumulated amount is no longer reversible. The first step is the reversible creation and destruction of the DBF (refered to a Precurser of DBF (PDBF)). The second step is the transfer of the currently accumulated PDBF to the irreversible DBF (refered to as DBF).
+As mentioned, the model presented and analyzed in ["mathematical analysis"](https://doi.org/10.1016/S0022-5193(87)80221-7) paper is a two step model. It assumes there is a Dormancy Breaking Factor that is created and destroyed. It assumes the creation and destruction processes of this DBF each obey the [Arrhenius equation](https://en.wikipedia.org/wiki/Arrhenius_equation). Further, it assumes that after enough Dormancy Breaking Factor from the creation and destruction processes has accumulated, the accumulated amount is no longer reversible. The first step is the reversible creation and destruction of the DBF (referred to a Precursor of DBF (PDBF)). The second step is the transfer of the currently accumulated PDBF to the irreversible DBF (referred to as DBF).
 
 The ["computer simulation"](https://doi.org/10.1016/S0022-5193(87)80237-0) paper introduces a refinement to the model to better reflect measured behavior. Instead of the transfer from PDBF to DBF being deterministic, the transfer is made probabilistic.
 
@@ -277,4 +277,4 @@ q = \frac{1}{\Theta^*} - \frac{1}{\Theta_c}
 
 ---
 
-Last Reviewed on 19 February 2021
+Last Reviewed on 26 March 2022
